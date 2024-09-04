@@ -1,51 +1,137 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coinbase Wallet SDK Demo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        #disconnect {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Welcome to Blinx Digital</h1>
-        <button onclick="connectWallet()">Connect Wallet</button>
-        <button id="disconnect" onclick="disconnectWallet()">Disconnect</button>
-        <p id="status">Not connected</p>
-    </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Blinx Digital Technologies</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f8f9fa;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            header {
+                background-color: #ffffff;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                padding: 15px 0;
+            }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 15px;
+            }
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .logo {
+                font-size: 24px;
+                font-weight: bold;
+                color: #3498db;
+            }
+            main {
+                flex-grow: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .wallet-connection {
+                text-align: center;
+                background-color: white;
+                padding: 2rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            button {
+                margin: 10px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+            button:hover {
+                background-color: #2980b9;
+            }
+            #disconnect {
+                display: none;
+                background-color: #e74c3c;
+            }
+            #disconnect:hover {
+                background-color: #c0392b;
+            }
+            #usdcConvert {
+                display: none;
+                background-color: #2ecc71;
+            }
+            #usdcConvert:hover {
+                background-color: #27ae60;
+            }
+            #agreeTerms {
+                display: none;
+                background-color: #f39c12;
+            }
+            #agreeTerms:hover {
+                background-color: #d35400;
+            }
+            #status {
+                margin-top: 15px;
+                font-weight: bold;
+            }
+            footer {
+                background-color: #ffffff;
+                text-align: center;
+                padding: 15px 0;
+                box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+       </head>
+    <body>
+        <header>
+            <div class="container">
+                <nav>
+                    <div class="logo">Blinx Digital Technologies</div>
+                </nav>
+            </div>
+        </header>
 
-    <!-- Include the Coinbase Wallet SDK -->
-    <script src="https://unpkg.com/@coinbase/wallet-sdk@4.0.4/dist/index.umd.js"></script>
-     <footer>
-        <p>&copy; 2023 Blinx Digital Technologies. All rights reserved.</p>
-    </footer>
-    <!-- Include our main.js file -->
-    <script src="main.js"></script>
-</body>
+        <main>
+            <div class="wallet-connection">
+                <h1>Welcome to Blinx Digital</h1>
+                <button onclick="connectWallet()">Connect Wallet</button>
+                <button id="disconnect" onclick="disconnectWallet()">
+                    Disconnect
+                </button>
+                <button id="agreeTerms" onclick="agreeToTerms()">
+                    Agree to Terms
+                </button>
+                <button id="usdcConvert" onclick="convertToUSDC()">
+                    Convert to USDC
+                </button>
+                <button onclick="checkUSDCBalance()">Check USDC Balance</button>
+                <p id="status">Not connected</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 Blinx Digital Technologies. All rights reserved.</p>
+        </footer>
+
+        <!-- Include the Coinbase Wallet SDK -->
+        <script src="https://unpkg.com/@coinbase/wallet-sdk@4.0.4/dist/index.umd.js"></script>
+        <!-- Include ethers.js -->
+        <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"></script>
+        <!-- Include USDCConverterInterface -->
+        <script src="usdcConverterInterface.js"></script>
+        <!-- Include our main.js file -->
+        <script src="main.js"></script>
+    </body>
 </html>
