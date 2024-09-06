@@ -1,5 +1,6 @@
 node_modules
 .env
+USDCConverter.sol
 
 # Hardhat files
 /cache

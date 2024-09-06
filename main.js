@@ -5,21 +5,20 @@ let provider;
 let signer;
 let usdcConverter;
 
-const USDCConverterAddress = "0x63216B54e3dAdD289f35FB51EC5B48AD3164F568";
-const USDCTokenAddress = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // USDC on Base
+const USDCConverterAddress = "0xFA27413DC4160E32F1979A81556B9372D2fB9B01"; // Update this after deploying to mainnet
+const USDCTokenAddress = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // USDC on Base mainnet
 
 function initializeSdk() {
   console.log("Initializing SDK...");
 
-  // Base network configuration
-  const chainId = 8453; // Base Mainnet
+  // Base mainnet network configuration
+  const chainId = 8453; // Base mainnet
   const rpcUrl = "https://chain-proxy.wallet.coinbase.com?targetName=base";
 
   // Initialize the SDK
   sdk = new CoinbaseWalletSDK({
     appName: "Blinx Digital Technologies",
-    appLogoUrl:
-      "https://ipfs.io/ipfs/QmfYWXqgfR4igPm5gMuB3sjub5zj22VY7VEYZMJerquxvN?filename=design-28%20(1).png",
+    appLogoUrl: "./image/logo-transparent.png",
     darkMode: false,
     overrideIsMetaMask: false,
   });
@@ -46,6 +45,7 @@ function initializeSdk() {
     provider
   );
   console.log("USDCConverter contract initialized:", usdcConverter);
+
   // Set up event listeners
   window.provider.on("connect", (info) => {
     console.log("Connected:", info);
@@ -76,8 +76,8 @@ function initializeSdk() {
   window.provider.on("chainChanged", (chainId) => {
     console.log("Chain changed:", chainId);
     if (chainId !== "0x2105") {
-      // '0x2105' is hexadecimal for 8453 (Base Mainnet)
-      alert("Please switch to the Base network in your wallet.");
+      // '0x2105' is hexadecimal for 8453 (Base mainnet)
+      alert("Please switch to the Base mainnet in your wallet.");
     }
   });
 }
@@ -116,7 +116,8 @@ window.connectWallet = async function () {
     console.log("Connected to network:", network);
 
     if (network.chainId !== 8453) {
-      alert("Please switch to the Base network in your wallet.");
+      // Base mainnet chain ID
+      alert("Please switch to the Base mainnet in your wallet.");
       return;
     }
 
@@ -196,19 +197,13 @@ window.convertToUSDC = async function () {
     console.log("Initiating ETH to USDC conversion...");
     const contractWithSigner = usdcConverter.connect(signer);
 
-    // Estimate gas with a higher limit
-    const gasEstimate = await contractWithSigner.estimateGas.convertETHtoUSDC({
-      value: amount,
-    });
-    console.log("Estimated gas:", gasEstimate.toString());
-
-    // Increase gas limit by 20%
-    const gasLimit = gasEstimate.mul(120).div(100);
-    console.log("Gas limit set to:", gasLimit.toString());
+    // Set a manual gas limit
+    const manualGasLimit = ethers.BigNumber.from("500000"); // Adjust this value as needed
+    console.log("Using manual gas limit:", manualGasLimit.toString());
 
     const tx = await contractWithSigner.convertETHtoUSDC({
       value: amount,
-      gasLimit: gasLimit,
+      gasLimit: manualGasLimit,
     });
     console.log("Transaction submitted:", tx.hash);
 
